@@ -41,6 +41,7 @@ const providers: Provider[] = [
 
 export const authOptions = {
   providers: providers,
+  secret: process.env.AUTH_SECRET || 'teOjAdpwlt1rNQAb5qdF/yvTmZp/N5OwIugtnpiqSc8=',
   callbacks: {
     async signIn(params: Object) {
       /*
