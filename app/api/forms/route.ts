@@ -1,30 +1,95 @@
 import { headers } from 'next/headers'
 import { type NextRequest, NextResponse } from 'next/server'
-import { forms } from '@/app/data/forms'
+import { z } from 'zod'
 
-import { turso } from '@/drizzle/db'
+import connection from '@/lib/db'
 
+const formSchema = z.object({
+  name: z.string().min(10, 'Name must be at least 5 characters long'),
+  description: z
+    .string()
+    .min(20, 'Description must be at least 10 characters long')
+})
+
+export async function GET(request: NextRequest, response: NextResponse) {
+  const db = await connection()
+
+  try {
+    const [rows] = await db.query('SELECT * FROM forms')
+
+    return Response.json({
+      message: 'Forms retrieved successfully!',
+      success: true,
+      data: rows
+    })
+  } catch (error) {
+    return Response.json(
+      { error: 'Error retrieving forms', details: error.message },
+      { status: 500 }
+    )
+  } finally {
+    db.end()
+  }
+}
+
+export async function POST(request: NextRequest, response: NextResponse) {
+  const db = await connection()
+
+  try {
+    const formData = await request.json()
+
+    // Validate the form data using zod
+    const parsedData = formSchema.parse(formData)
+    const { name, description } = parsedData
+
+    const [result] = await db.execute(
+      'INSERT INTO forms (name, description) VALUES (?, ?)',
+      [name, description]
+    )
+
+    return Response.json({
+      message: 'Form submitted successfully!',
+      success: true,
+      data: {
+        id: result.insertId
+      }
+    })
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return Response.json(
+        { error: 'Validation failed', details: error.errors },
+        { status: 400 }
+      )
+    }
+
+    return Response.json(
+      { error: 'Error submitting form', details: error.message },
+      { status: 500 }
+    )
+  } finally {
+    db.end()
+  }
+}
+
+/*
 export async function GET(request: NextRequest, response: NextResponse) {
   const headersList = headers()
   const referer = headersList.get('referer')
 
-  const sites = await turso.execute('SELECT * FROM sites')
+  const [rows] = await db.query('SELECT * FROM sites')
 
   const searchParams = request.nextUrl.searchParams
   const query = {
     name: searchParams.get('name'),
-    email: searchParams.get('email'),
-    path: request.nextUrl.pathname,
-    forms: forms,
-    url: process.env.TURSO_DATABASE_URL,
-    sites: sites.rows
+    email: searchParams.get('email')
   }
 
   return Response.json(
     {
       message: 'Hello, Next.js!',
       success: true,
-      data: query
+      data: query,
+      rows
     },
     {
       status: 200,
@@ -32,25 +97,4 @@ export async function GET(request: NextRequest, response: NextResponse) {
     }
   )
 }
-
-/*
-export async function POST(request: Request) {
-  const res = await request.json()
-  return Response.json({ data: res, success: true }, { status: 201 })
-}
   */
-
-export async function POST(request: Request) {
-  const formData = await request.formData()
-  const name = formData.get('name')
-  const email = formData.get('email')
-
-  return Response.json({ name, email })
-}
-export async function HEAD(request: Request) {}
-
-export async function PUT(request: Request) {}
-
-export async function DELETE(request: Request) {}
-
-export async function PATCH(request: Request) {}
