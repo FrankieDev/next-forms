@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
 import './globals.css'
-import { auth } from '@/auth'
 import {
   ClerkProvider,
   SignInButton,
@@ -26,23 +25,25 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const session = await auth()
-
   return (
     <ClerkProvider>
       <html lang="en">
         <body
           className={`min-h-screen bg-background font-sans ${fontSans.variable}`}
         >
-          <div className='flex min-h-screen w-full flex-col'>
+          <header>
             <SignedOut>
               <SignInButton />
             </SignedOut>
             <SignedIn>
               <UserButton />
             </SignedIn>
-            {children}
-          </div>
+          </header>
+          <main>
+            <div className='flex min-h-screen w-full flex-col'>
+              {children}
+            </div>
+          </main>
         </body>
       </html>
     </ClerkProvider>

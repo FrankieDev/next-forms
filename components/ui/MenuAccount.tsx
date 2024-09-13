@@ -1,5 +1,4 @@
 'use client'
-import React, { Component, ComponentType } from 'react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,27 +8,8 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
-import { CircleUser } from 'lucide-react'
-
-import { signOut } from 'next-auth/react'
-import withSignOut from '@/lib/withSignOut'
-import { Half1Icon } from '@radix-ui/react-icons'
-
-interface SignOutButtonProps {
-  className?: string
-  onSignOut: () => void
-}
-
-const SignOutButton: React.FC<SignOutButtonProps> = ({
-  onSignOut,
-  className
-}) => (
-  <DropdownMenuItem className={className} onClick={onSignOut}>
-    Sign Out
-  </DropdownMenuItem>
-)
-
-const DropdownMenuItemSignOutButton = withSignOut(SignOutButton)
+import { CircleUser } from 'lucide-react' // This is showing error, please check with dependencies
+import { SignedOut } from '@clerk/nextjs'
 
 export default function MenuAccount() {
   return (
@@ -50,10 +30,9 @@ export default function MenuAccount() {
           Support
         </DropdownMenuItem>
         <DropdownMenuSeparator className='bg-gray-100' />
-        <DropdownMenuItemSignOutButton
-          className='hover:bg-gray-100'
-          onSignOut={signOut}
-        />
+        <DropdownMenuItem className='hover:bg-gray-100'>
+          <SignedOut />
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )
