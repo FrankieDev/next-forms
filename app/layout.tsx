@@ -2,7 +2,14 @@ import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
 import './globals.css'
 import { auth } from '@/auth'
-import SessionProvider from '@/components/SessionProvider'
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton
+} from '@clerk/nextjs'
+import './globals.css'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -22,25 +29,22 @@ export default async function RootLayout({
   const session = await auth()
 
   return (
-    <html lang='en'>
-      <body
-        className={`min-h-screen bg-background font-sans ${fontSans.variable}`}
-      >
-        <div className='flex min-h-screen w-full flex-col'>
-          <SessionProvider session={session}>{children}</SessionProvider>
-        </div>
-
-        {/*
-        <div className='header-test'>
-          {session?.user?.name || 'No user'}
-          <br />
-          {session?.user?.image && <img src={session.user.image} alt='Photo' />}
-          <ButtonLogout />
-        </div>
-        
-        
-        */}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`min-h-screen bg-background font-sans ${fontSans.variable}`}
+        >
+          <div className='flex min-h-screen w-full flex-col'>
+            <SignedOut>
+              <SignInButton />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+            {children}
+          </div>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }
