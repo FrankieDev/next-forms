@@ -17,7 +17,6 @@ import useDesignerContext from '@/components/hooks/useDesignerContext'
 import { useDndMonitor } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 import { v4 as uuid } from 'uuid'
-import { FormElementInstance } from '@/utils/types'
 
 const DesignerWrapper: React.FC = () => {
   const {
