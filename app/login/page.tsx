@@ -1,7 +1,6 @@
 //import LoginForm from '@/app/ui/login-form'
 import LoginUI from '@/app/ui/LoginPage'
 //import SingInPage from '@/app/ui/SignInPage'
-//import { signIn } from 'next-auth/react'
 
 export default function LoginPage() {
   return (
