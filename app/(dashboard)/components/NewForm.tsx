@@ -81,9 +81,20 @@ const NewForm: React.FC<NewFormProps> = () => {
       return
     }
 
-    // 3. Redirect the user to the builder
-    router.push(`/builder/${result.data.id}`, {
-      replace: true
+    const promise = () =>
+      new Promise((resolve) =>
+        setTimeout(() => resolve({ name: 'Sonner' }), 2000)
+      )
+
+    toast.promise(promise, {
+      loading: 'Redirecting...',
+      success: (data) => {
+        // 3. Redirect the user to the builder
+        router.push(`/builder/${result.data.id}`)
+        return 'Formulario creado con éxito.'
+      },
+      error: 'Error',
+      position: 'top-center'
     })
   }
 
