@@ -9,7 +9,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { useFormState, useFormStatus } from 'react-dom'
 import { authenticate } from '@/lib/actions'
-import { signIn } from 'next-auth/react'
+import { SignIn } from '@clerk/nextjs'
 //import { providerMap } from '@/auth'
 import SingInPage from '@/app/ui/SignInPage'
 
@@ -66,7 +66,7 @@ export default function LoginForm() {
           </div>
           <LoginButton />
           <div>
-            <button onClick={() => signIn()}>
+            <button onClick={() => SignIn({})}>
               Prueba otras opciones de inicio de sesión.
             </button>
           </div>
