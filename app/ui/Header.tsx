@@ -17,20 +17,8 @@ export default function Header() {
           <Package2 className='h-6 w-6' />
           <span className='sr-only'>Acme Inc</span>
         </Link>
-        <Link href='#' className='text-stone-500 hover:text-stone-900'>
+        <Link href='/' className='text-stone-500 hover:text-stone-900'>
           Dashboard
-        </Link>
-        <Link href='#' className='text-stone-500 hover:text-stone-900'>
-          Orders
-        </Link>
-        <Link href='#' className='text-stone-500 hover:text-stone-900'>
-          Products
-        </Link>
-        <Link href='#' className='text-stone-500 hover:text-stone-900'>
-          Customers
-        </Link>
-        <Link href='/builder' className='text-stone-500 hover:text-stone-900'>
-          Builder
         </Link>
       </nav>
       <Sheet>

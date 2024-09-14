@@ -1,56 +1,75 @@
-import { headers } from 'next/headers'
 import { type NextRequest, NextResponse } from 'next/server'
-import { forms } from '@/app/data/forms'
+import { z } from 'zod'
+import {
+  ConnectionOptions,
+  ResultSetHeader,
+  RowDataPacket
+} from 'mysql2/promise'
+import connection from '@/lib/db'
 
-import { turso } from '@/drizzle/db'
+const formSchema = z.object({
+  name: z.string().min(5, 'Name must be at least 5 characters long'),
+  description: z
+    .string()
+    .min(10, 'Description must be at least 10 characters long')
+})
 
-export async function GET(request: NextRequest, response: NextResponse) {
-  const headersList = headers()
-  const referer = headersList.get('referer')
+export async function GET() {
+  const db = await connection()
 
-  const sites = await turso.execute('SELECT * FROM sites')
+  try {
+    const [rows] = await db.query<ResultSetHeader>('SELECT * FROM forms')
 
-  const searchParams = request.nextUrl.searchParams
-  const query = {
-    name: searchParams.get('name'),
-    email: searchParams.get('email'),
-    path: request.nextUrl.pathname,
-    forms: forms,
-    url: process.env.TURSO_DATABASE_URL,
-    sites: sites.rows
-  }
-
-  return Response.json(
-    {
-      message: 'Hello, Next.js!',
+    return NextResponse.json({
+      message: 'Forms retrieved successfully!',
       success: true,
-      data: query
-    },
-    {
-      status: 200,
-      headers: { referer: referer ?? '' }
+      data: rows
+    })
+  } catch (error: unknown) {
+    return NextResponse.json(
+      { error: 'Error retrieving forms', details: (error as Error).message },
+      { status: 500 }
+    )
+  } finally {
+    db.end()
+  }
+}
+
+export async function POST(request: NextRequest) {
+  const db = await connection()
+
+  try {
+    const formData = await request.json()
+
+    // Validate the form data using zod
+    const parsedData = formSchema.parse(formData)
+    const { name, description } = parsedData
+
+    const [result] = await db.execute<ResultSetHeader>(
+      'INSERT INTO forms (name, description) VALUES (?, ?)',
+      [name, description]
+    )
+
+    return NextResponse.json({
+      message: 'Form submitted successfully!',
+      success: true,
+      data: {
+        id: result.insertId
+      }
+    })
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: 'Validation failed', details: error.errors },
+        { status: 400 }
+      )
     }
-  )
+
+    return NextResponse.json(
+      { error: 'Error submitting form', details: (error as Error).message },
+      { status: 500 }
+    )
+  } finally {
+    db.end()
+  }
 }
-
-/*
-export async function POST(request: Request) {
-  const res = await request.json()
-  return Response.json({ data: res, success: true }, { status: 201 })
-}
-  */
-
-export async function POST(request: Request) {
-  const formData = await request.formData()
-  const name = formData.get('name')
-  const email = formData.get('email')
-
-  return Response.json({ name, email })
-}
-export async function HEAD(request: Request) {}
-
-export async function PUT(request: Request) {}
-
-export async function DELETE(request: Request) {}
-
-export async function PATCH(request: Request) {}
