@@ -5,7 +5,7 @@ import React, {
   ReactNode,
   useState
 } from 'react'
-import { FormElement, FormElementInstance } from '@/utils/types'
+import { FormElementInstance } from '@/utils/types'
 
 // Definir el tipo para el estado y las funciones que se compartirán a través del contexto
 type DesignerContextType = {

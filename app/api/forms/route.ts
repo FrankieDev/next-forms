@@ -1,10 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-import {
-  ConnectionOptions,
-  ResultSetHeader,
-  RowDataPacket
-} from 'mysql2/promise'
+import { ResultSetHeader } from 'mysql2/promise'
 import connection from '@/lib/db'
 
 const formSchema = z.object({

@@ -1,3 +1,4 @@
+import React from 'react'
 import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
 import './globals.css'
@@ -27,7 +28,7 @@ export default async function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang='en'>
         <body
           className={`min-h-screen bg-background font-sans ${fontSans.variable}`}
         >
@@ -40,9 +41,7 @@ export default async function RootLayout({
             </SignedIn>
           </header>
           <main>
-            <div className='flex min-h-screen w-full flex-col'>
-              {children}
-            </div>
+            <div className='flex min-h-screen w-full flex-col'>{children}</div>
           </main>
         </body>
       </html>
