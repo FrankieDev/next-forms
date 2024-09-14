@@ -1,4 +1,3 @@
-import { headers } from 'next/headers'
 import { type NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
@@ -11,7 +10,7 @@ const formSchema = z.object({
     .min(10, 'Description must be at least 10 characters long')
 })
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const db = await connection()
 
   try {
@@ -32,7 +31,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest, response: NextResponse) {
+export async function POST(request: NextRequest) {
   const db = await connection()
 
   try {
@@ -47,7 +46,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
       [name, description]
     )
 
-    return Response.json({
+    return NextResponse.json({
       message: 'Form submitted successfully!',
       success: true,
       data: {
@@ -70,31 +69,3 @@ export async function POST(request: NextRequest, response: NextResponse) {
     db.end()
   }
 }
-
-/*
-export async function GET(request: NextRequest, response: NextResponse) {
-  const headersList = headers()
-  const referer = headersList.get('referer')
-
-  const [rows] = await db.query('SELECT * FROM sites')
-
-  const searchParams = request.nextUrl.searchParams
-  const query = {
-    name: searchParams.get('name'),
-    email: searchParams.get('email')
-  }
-
-  return Response.json(
-    {
-      message: 'Hello, Next.js!',
-      success: true,
-      data: query,
-      rows
-    },
-    {
-      status: 200,
-      headers: { referer: referer ?? '' }
-    }
-  )
-}
-  */
