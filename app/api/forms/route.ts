@@ -1,6 +1,10 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-
+import {
+  ConnectionOptions,
+  ResultSetHeader,
+  RowDataPacket
+} from 'mysql2/promise'
 import connection from '@/lib/db'
 
 const formSchema = z.object({
@@ -14,7 +18,7 @@ export async function GET() {
   const db = await connection()
 
   try {
-    const [rows] = await db.query('SELECT * FROM forms')
+    const [rows] = await db.query<ResultSetHeader>('SELECT * FROM forms')
 
     return NextResponse.json({
       message: 'Forms retrieved successfully!',
@@ -41,7 +45,7 @@ export async function POST(request: NextRequest) {
     const parsedData = formSchema.parse(formData)
     const { name, description } = parsedData
 
-    const [result] = await db.execute(
+    const [result] = await db.execute<ResultSetHeader>(
       'INSERT INTO forms (name, description) VALUES (?, ?)',
       [name, description]
     )
@@ -62,7 +66,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { error: 'Error submitting form', details: error.message },
+      { error: 'Error submitting form', details: (error as Error).message },
       { status: 500 }
     )
   } finally {
