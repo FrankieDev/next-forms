@@ -2,7 +2,7 @@
 import {
   AuthenticateWithRedirectCallback,
   SignedIn,
-  SignedOut,
+  SignedOut
 } from '@clerk/nextjs'
 
 const auth = AuthenticateWithRedirectCallback
@@ -11,4 +11,3 @@ const signIn = SignedIn
 const signOut = SignedOut
 
 export { auth, handlers, signIn, signOut }
-
