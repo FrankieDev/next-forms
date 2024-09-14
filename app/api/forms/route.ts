@@ -21,9 +21,9 @@ export async function GET() {
       success: true,
       data: rows
     })
-  } catch (error) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { error: 'Error retrieving forms', details: error.message },
+      { error: 'Error retrieving forms', details: (error as Error).message },
       { status: 500 }
     )
   } finally {
