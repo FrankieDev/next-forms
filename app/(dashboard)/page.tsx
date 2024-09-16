@@ -20,31 +20,27 @@ import type { Form } from '@/lib/definitions'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-async function getData(): Promise<Form[]> {
-  // Fetch data from your API here.
-  const dataResult = await fetch('/api/forms').then((result) => {
-    return result.json()
-  })
-
-  console.log(dataResult.data)
-  return dataResult.data
-}
-
 export default function Home() {
   const [forms, setForms] = useState<Form[]>([])
   const [openNewForm, setOpenNewForm] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const dataResult = async () => {
-      await getData().then((result) => {
+    getForms()
+  }, [])
+
+  const getForms = async () => {
+    await fetch('/api/forms')
+      .then((result) => {
+        if (!result.ok) throw new Error('Error fetching forms')
+
+        return result.json()
+      })
+      .then((result) => {
         setForms(result)
         setLoading(false)
       })
-    }
-
-    dataResult()
-  }, [])
+  }
 
   // Define other routes and logic
   return (

@@ -15,6 +15,8 @@ export async function GET() {
   try {
     const rows = await drizzleDb.select().from(formsTable)
 
+    console.log(rows)
+
     return NextResponse.json({
       message: 'Forms retrieved successfully!',
       success: true,
@@ -36,10 +38,9 @@ export async function POST(request: NextRequest) {
     const parsedData = formSchema.parse(formData)
     const { name, description } = parsedData
 
-    const [result] = await drizzleDb.execute<ResultSetHeader>(
-      'INSERT INTO forms (name, description) VALUES (?, ?)',
-      [name, description]
-    )
+    const [result] = await drizzleDb
+      .insert(formsTable)
+      .values({ name, description })
 
     return NextResponse.json({
       message: 'Form submitted successfully!',
