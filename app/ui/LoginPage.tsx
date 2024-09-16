@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
 import { useState } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -15,49 +14,15 @@ import {
   CardFooter
 } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { createClient } from '@supabase/supabase-js'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
-  const supabase = createClientComponentClient()
-  const supabaseClient = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
-
-  const getUsers = async () => {
-    const { data } = await supabase.from('users').select().returns()
-
-    console.log('Data:', data)
-
-    if (data) {
-      console.log('User:', data)
-    } else {
-      console.log('No user')
-    }
-  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError(null)
-
-    getUsers()
-
-    try {
-      const { error } = await supabaseClient.auth.signInWithPassword({
-        email,
-        password
-      })
-
-      if (error) throw error
-
-      router.push('/dashboard')
-    } catch (error) {
-      //setError(error.message)
-    }
   }
 
   return (
