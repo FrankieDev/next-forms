@@ -37,7 +37,7 @@ export default function Home() {
         return result.json()
       })
       .then((result) => {
-        setForms(result)
+        setForms(result.data)
         setLoading(false)
       })
   }
