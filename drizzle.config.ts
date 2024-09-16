@@ -1,3 +1,4 @@
+import '@/drizzle/envConfig'
 import type { Config } from 'drizzle-kit'
 
 export default {
@@ -5,6 +6,6 @@ export default {
   out: './drizzle/migrations',
   dialect: 'mysql',
   dbCredentials: {
-    url: 'mysql://root:@localhost:3306/next_forms'
+    url: `mysql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`
   }
 } satisfies Config

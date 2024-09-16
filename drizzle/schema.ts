@@ -9,8 +9,6 @@ import {
   index
 } from 'drizzle-orm/mysql-core'
 
-//export const nextFormsSchema = mysqlSchema('next_forms')
-
 export const formsTable = mysqlTable(
   'forms',
   {
