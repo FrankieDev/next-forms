@@ -1,7 +1,8 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { ResultSetHeader } from 'mysql2/promise'
-import connection from '@/lib/db'
+import { drizzleDb } from '@/drizzle/db'
+import { formsTable, SelectForm, InsertForm } from '@/drizzle/schema'
 
 const formSchema = z.object({
   name: z.string().min(5, 'Name must be at least 5 characters long'),
@@ -11,10 +12,8 @@ const formSchema = z.object({
 })
 
 export async function GET() {
-  const db = await connection()
-
   try {
-    const [rows] = await db.query<ResultSetHeader>('SELECT * FROM forms')
+    const rows = await drizzleDb.select().from(formsTable)
 
     return NextResponse.json({
       message: 'Forms retrieved successfully!',
@@ -26,14 +25,10 @@ export async function GET() {
       { error: 'Error retrieving forms', details: (error as Error).message },
       { status: 500 }
     )
-  } finally {
-    db.end()
   }
 }
 
 export async function POST(request: NextRequest) {
-  const db = await connection()
-
   try {
     const formData = await request.json()
 
@@ -41,7 +36,7 @@ export async function POST(request: NextRequest) {
     const parsedData = formSchema.parse(formData)
     const { name, description } = parsedData
 
-    const [result] = await db.execute<ResultSetHeader>(
+    const [result] = await drizzleDb.execute<ResultSetHeader>(
       'INSERT INTO forms (name, description) VALUES (?, ?)',
       [name, description]
     )
@@ -65,7 +60,5 @@ export async function POST(request: NextRequest) {
       { error: 'Error submitting form', details: (error as Error).message },
       { status: 500 }
     )
-  } finally {
-    db.end()
   }
 }
