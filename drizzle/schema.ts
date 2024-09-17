@@ -1,26 +1,25 @@
 import { sql } from 'drizzle-orm'
 import {
   text,
-  int,
-  datetime,
+  serial,
+  timestamp,
   varchar,
-  mysqlTable,
-  mysqlSchema,
-  index
-} from 'drizzle-orm/mysql-core'
+  index,
+  pgTable
+} from 'drizzle-orm/pg-core'
 
-export const formsTable = mysqlTable(
+export const formsTable = pgTable(
   'forms',
   {
-    id: int('id').autoincrement().primaryKey(),
+    id: serial('id').primaryKey(),
     name: varchar('name', { length: 100 }).notNull(),
     description: text('description'),
-    createdAt: datetime('created_at').default(sql`current_timestamp`),
-    updatedAt: datetime('updated_at').default(sql`current_timestamp`)
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at').defaultNow()
   },
-  (formsTable) => {
+  (t) => {
     return {
-      nameIdx: index('name_idx').on(formsTable.name)
+      nameIdx: index('name_idx').on(t.name)
     }
   }
 )

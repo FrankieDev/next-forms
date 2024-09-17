@@ -4,8 +4,8 @@ import type { Config } from 'drizzle-kit'
 export default {
   schema: './drizzle/schema.ts',
   out: './drizzle/migrations',
-  dialect: 'mysql',
+  dialect: 'postgresql',
   dbCredentials: {
-    url: `mysql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`
+    url: process.env.POSTGRES_URL as string
   }
 } satisfies Config
