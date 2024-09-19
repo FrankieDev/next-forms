@@ -35,8 +35,7 @@ next-forms/
 │       └── forms/
 │           └── route.ts
 ├── .env.production
-├── drizzle.config.ts
-└── package.json
+└── drizzle.config.ts
 ```
 
 To generate a new migration, use:
