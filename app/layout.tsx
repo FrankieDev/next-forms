@@ -1,4 +1,5 @@
 import React from 'react'
+import { ThemeProvider } from '@/components/theme-provider'
 import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
 import './globals.css'
@@ -32,17 +33,26 @@ export default async function RootLayout({
         <body
           className={`min-h-screen bg-background font-sans ${fontSans.variable}`}
         >
-          <header>
-            <SignedOut>
-              <SignInButton />
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-          </header>
-          <main>
-            <div className='flex min-h-screen w-full flex-col'>{children}</div>
-          </main>
+          <ThemeProvider
+            attribute='class'
+            defaultTheme='system'
+            enableSystem
+            disableTransitionOnChange
+          >
+            <header>
+              <SignedOut>
+                <SignInButton />
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+            </header>
+            <main>
+              <div className='flex min-h-screen w-full flex-col'>
+                {children}
+              </div>
+            </main>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

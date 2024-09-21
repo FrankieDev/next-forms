@@ -1,5 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
+import { ModeToggle } from '@/components/DarkModeToggle'
+
 import { CircleUser, Menu, Package2, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -79,6 +81,7 @@ export default function Header() {
           </div>
         </form>
       </div>
+      <ModeToggle />
       <MenuAccount />
     </header>
   )
