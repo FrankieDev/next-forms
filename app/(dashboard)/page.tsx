@@ -12,7 +12,6 @@ import { Button } from '@/components/ui/button'
 import { columns } from './columns'
 import { DataTable } from './data-table'
 import { useEffect, useState } from 'react'
-import Header from '../ui/Header'
 import NewForm from './components/NewForm'
 import { BiDesktop } from 'react-icons/bi'
 
@@ -45,7 +44,6 @@ export default function Home() {
   // Define other routes and logic
   return (
     <div>
-      <Header />
       <main className='flex min-h-screen flex-col items-center p-24'>
         <div className='container flex gap-5 mb-10'>
           <Card className='basis-1/4 bg-violet-50 flex flex-col justify-between'>

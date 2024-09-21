@@ -1,5 +1,6 @@
 import React from 'react'
 import { ThemeProvider } from '@/components/theme-provider'
+import Header from '@/app/ui/Header'
 import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
 import './globals.css'
@@ -47,6 +48,8 @@ export default async function RootLayout({
                 <UserButton />
               </SignedIn>
             </header>
+            <Header />
+
             <main>
               <div className='flex min-h-screen w-full flex-col'>
                 {children}
