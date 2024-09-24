@@ -21,7 +21,7 @@ function FormBuilder() {
   return (
     <DndContext id={dndContextId}>
       <SidebarFormElements />
-      <DesignerWrapper />
+      <DesignerWrapper className='col-span-2' />
       <DragOverlayWrapper />
       <DinamicReactJson jsonData={elements} />
     </DndContext>
