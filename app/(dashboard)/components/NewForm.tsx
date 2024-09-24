@@ -101,7 +101,7 @@ const NewForm: React.FC<NewFormProps> = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant='outline' className='mb-4 text-slate-700'>
+        <Button variant='outline' className='mb-4'>
           Crear nuevo formulario
         </Button>
       </DialogTrigger>

@@ -32,7 +32,7 @@ export default async function RootLayout({
     <ClerkProvider>
       <html lang='en'>
         <body
-          className={`min-h-screen bg-background font-sans ${fontSans.variable}`}
+          className={`min-h-screen dark:bg-gray-950 font-sans ${fontSans.variable}`}
         >
           <ThemeProvider
             attribute='class'
@@ -48,7 +48,7 @@ export default async function RootLayout({
                 <UserButton />
               </SignedIn>
             </header>
-            <Header />
+            <Header className='mb-10' />
 
             <main>
               <div className='flex min-h-screen w-full flex-col'>

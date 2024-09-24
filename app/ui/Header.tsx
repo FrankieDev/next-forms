@@ -6,10 +6,20 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import MenuAccount from '@/components/ui/MenuAccount'
+import { clsx } from 'clsx'
 
-export default function Header() {
+interface Props {
+  className?: string
+}
+
+const Header = ({ className = '' }) => {
   return (
-    <header className='sticky top-0 flex flex-row h-16 items-center gap-4 border-b bg-white dark:bg-zinc-950 px-4 md:px-6'>
+    <header
+      className={clsx(
+        'sticky top-0 flex flex-row h-16 items-center gap-4 border-b border-b-gray-900 bg-white dark:bg-gray-950 px-4 md:px-6',
+        className
+      )}
+    >
       <nav className='hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6'>
         <Link
           href='#'
@@ -18,7 +28,7 @@ export default function Header() {
           <Package2 className='h-6 w-6' />
           <span className='sr-only'>Acme Inc</span>
         </Link>
-        <Link href='/' className='text-stone-500 hover:text-stone-900'>
+        <Link href='/' className='dark:text-gray-400 hover:dark:text-gray-300'>
           Dashboard
         </Link>
       </nav>
@@ -75,3 +85,5 @@ export default function Header() {
     </header>
   )
 }
+
+export default Header

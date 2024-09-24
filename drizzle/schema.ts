@@ -24,5 +24,5 @@ export const formsTable = pgTable(
   }
 )
 
-export type SelectForm = typeof formsTable.$inferSelect
-export type InsertForm = typeof formsTable.$inferInsert
+export type Form = typeof formsTable.$inferSelect
+export type FormInsert = typeof formsTable.$inferInsert

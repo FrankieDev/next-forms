@@ -3,3 +3,5 @@ export type Form = {
   name: string
   description: string
 }
+
+type FormStatus = 'draft' | 'published' | 'archived'

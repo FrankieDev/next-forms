@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-import { formsTable, SelectForm, InsertForm } from '@/drizzle/schema'
+import { formsTable, Form, FormInsert } from '@/drizzle/schema'
 import { sql } from '@vercel/postgres'
 import { drizzle } from 'drizzle-orm/vercel-postgres'
 
