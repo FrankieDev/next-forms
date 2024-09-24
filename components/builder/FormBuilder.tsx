@@ -24,7 +24,6 @@ function FormBuilder() {
       <DesignerWrapper />
       <DragOverlayWrapper />
       <DinamicReactJson jsonData={elements} />
-      <h1>Titulo Hora saai as as ps as a</h1>
     </DndContext>
   )
 }

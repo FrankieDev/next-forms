@@ -48,7 +48,8 @@ export default async function RootLayout({
                 <UserButton />
               </SignedIn>
             </header>
-            <Header className='mb-10' />
+
+            <Header />
 
             <main>
               <div className='flex min-h-screen w-full flex-col'>
