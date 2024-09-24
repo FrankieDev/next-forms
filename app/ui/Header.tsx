@@ -7,6 +7,13 @@ import { Input } from '@/components/ui/input'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import MenuAccount from '@/components/ui/MenuAccount'
 import { clsx } from 'clsx'
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton
+} from '@clerk/nextjs'
 
 interface Props {
   className?: string
@@ -34,7 +41,10 @@ const Header = ({ className = '' }) => {
       </nav>
       <div className='flex items-center gap-4 md:ml-auto md:gap-2 lg:gap-4'>
         <ModeToggle />
-        <MenuAccount />
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+        {/*<MenuAccount />*/}
       </div>
       <Sheet>
         <SheetTrigger asChild>

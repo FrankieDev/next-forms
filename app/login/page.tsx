@@ -1,15 +1,18 @@
-//import LoginForm from '@/app/ui/login-form'
 import LoginUI from '@/app/ui/LoginPage'
-//import SingInPage from '@/app/ui/SignInPage'
+import { SignInButton, SignedOut } from '@clerk/nextjs'
 
 export default function LoginPage() {
   return (
     <main className='flex items-center justify-center md:h-screen'>
-      <div className='relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32'>
-        <div className='flex h-20 w-full items-end rounded-lg bg-blue-500 p-3 md:h-36'>
+      <div className='relative mx-auto flex flex-col space-y-2.5 p-4 md:-mt-32'>
+        <div className='flex h-20 items-end rounded-lg bg-blue-500 p-3 md:h-36'>
           <div className='text-white md:w-36'>Logo</div>
         </div>
         <LoginUI />
+        <SignedOut>
+          <SignInButton />
+        </SignedOut>
+
         {/** 
         <LoginForm />
         <SingInPage />

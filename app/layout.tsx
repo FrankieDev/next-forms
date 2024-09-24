@@ -11,6 +11,7 @@ import {
   SignedOut,
   UserButton
 } from '@clerk/nextjs'
+import { auth } from '@clerk/nextjs/server'
 import './globals.css'
 
 const fontSans = FontSans({
@@ -28,6 +29,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const { sessionClaims } = auth()
+  console.log(sessionClaims)
+
+  const fullName = sessionClaims?.full_name
+  console.log(fullName)
+
   return (
     <ClerkProvider>
       <html lang='en'>
@@ -40,16 +47,7 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <header>
-              <SignedOut>
-                <SignInButton />
-              </SignedOut>
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
-            </header>
-
-            <Header />
+            {fullName !== undefined && <Header />}
 
             <main>
               <div className='flex min-h-screen w-full flex-col'>
