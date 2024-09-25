@@ -1,3 +1,4 @@
+'use client'
 import React, { useId, useState } from 'react'
 import { DndContext } from '@dnd-kit/core'
 
@@ -6,6 +7,9 @@ import SidebarFormElements from '@/components/builder/SidebarFormElements'
 import DesignerWrapper from '@/components/builder/DesignerWrapper'
 import DragOverlayWrapper from '@/components/builder/DragOverlayWrapper'
 import dynamic from 'next/dynamic'
+import { useFetch } from '@/hooks/useFetch'
+import { Form } from '@/drizzle/schema'
+import { useParams } from 'next/navigation'
 
 const DinamicReactJson = dynamic(
   // Utiliza una función anónima que retorna una promesa con el componente importado.
@@ -15,15 +19,27 @@ const DinamicReactJson = dynamic(
 )
 
 function FormBuilder() {
+  const params = useParams<{ id: string }>()
+
   const { elements } = useDesignerContext()
   const dndContextId = useId()
 
+  const { data, isLoading, error, refetch } = useFetch<Form>(
+    `http://localhost:3000/api/forms/${params.id}`
+  )
+
   return (
     <DndContext id={dndContextId}>
-      <SidebarFormElements />
-      <DesignerWrapper className='col-span-2' />
-      <DragOverlayWrapper />
-      <DinamicReactJson jsonData={elements} />
+      <div>
+        <h1 className='text-2xl font-bold'>Formulario: {data?.name}</h1>
+        <p>{data?.description}</p>
+      </div>
+      <div className='grid gap-4 md:gap-8 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4'>
+        <SidebarFormElements />
+        <DesignerWrapper />
+        <DragOverlayWrapper />
+        <DinamicReactJson jsonData={elements} />
+      </div>
     </DndContext>
   )
 }
