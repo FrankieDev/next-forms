@@ -49,7 +49,7 @@ const SortableItem: React.FC<SortableItemProps> = ({ id, element }) => {
       <div
         ref={setNodeRef}
         style={style}
-        className='group relative flex-col mb-4 '
+        className='group relative flex-col mb-2 border border-gray-900 rounded-md bg-gray-900/10'
       >
         <div className='flex gap-4 p-5'>
           <div className='w-full'>
@@ -72,7 +72,7 @@ function ElementFormDragOverlay({ formElement }: { formElement: FormElement }) {
   const { label } = formElement.designerBtnElement
 
   return (
-    <div className='flex-col mb-4 bg-gray-600/55 rounded-md'>
+    <div className='flex-col mb-2 bg-gray-900/80 rounded-md'>
       <div className='flex gap-4 p-5'>
         <div className='w-full'>
           <Label>{label}</Label>
