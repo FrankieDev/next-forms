@@ -72,7 +72,7 @@ function ElementFormDragOverlay({ formElement }: { formElement: FormElement }) {
   const { label } = formElement.designerBtnElement
 
   return (
-    <div className='flex-col mb-2 bg-gray-900/80 rounded-md'>
+    <div className='flex-col mb-2 border border-gray-900 rounded-md bg-gray-900/80'>
       <div className='flex gap-4 p-5'>
         <div className='w-full'>
           <Label>{label}</Label>
@@ -93,7 +93,7 @@ const ElementAddedOverlay = ({ ...props }) => {
       {...props}
       className={`absolute flex top-0 w-full h-full rounded-md items-center justify-center font-semibold text-transparent group-hover:bg-gray-900/80 group-hover:text-gray-400 group-hover:cursor-grab transition-colors duration-200`}
     >
-      Click for properties or drag to move
+      <span>Click for properties or drag to move</span>
     </div>
   )
 }
