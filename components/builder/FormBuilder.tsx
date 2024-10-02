@@ -1,6 +1,6 @@
 'use client'
 import React, { useId, useState } from 'react'
-import { DndContext } from '@dnd-kit/core'
+import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 
 import useDesignerContext from '@/components/hooks/useDesignerContext'
 import SidebarFormElements from '@/components/builder/SidebarFormElements'
@@ -28,6 +28,14 @@ function FormBuilder() {
     `http://localhost:3000/api/forms/${params.id}`
   )
 
+  const pointerSensor = useSensor(PointerSensor, {
+    activationConstraint: {
+      delay: 100,
+      tolerance: 0
+    }
+  })
+  const sensors = useSensors(pointerSensor)
+
   return (
     <DndContext id={dndContextId}>
       <div>
@@ -35,10 +43,12 @@ function FormBuilder() {
         <p>{data?.description}</p>
       </div>
       <div className='grid gap-4 md:gap-8 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4'>
-        <SidebarFormElements />
-        <DesignerWrapper />
-        <DragOverlayWrapper />
-        <DinamicReactJson jsonData={elements} />
+        <DndContext sensors={sensors}>
+          <SidebarFormElements />
+          <DesignerWrapper />
+          <DragOverlayWrapper />
+          <DinamicReactJson jsonData={elements} />
+        </DndContext>
       </div>
     </DndContext>
   )
