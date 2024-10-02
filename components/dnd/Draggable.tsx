@@ -26,7 +26,7 @@ export function Draggable(props: DraggableProps) {
       style={style}
       {...listeners}
       {...attributes}
-      className={isDragging ? 'bg-slate-500' : 'bg-slate-900'}
+      className={isDragging ? 'bg-gray-500' : 'bg-gray-900'}
     >
       {props.children}
     </div>

@@ -46,24 +46,22 @@ const SortableItem: React.FC<SortableItemProps> = ({ id, element }) => {
 
   return (
     <>
-      <div ref={setNodeRef} style={style} className='flex-col mb-4'>
-        <Label>{label}</Label>
-        <div className='flex gap-4'>
+      <div
+        ref={setNodeRef}
+        style={style}
+        className='group relative flex-col mb-4 '
+      >
+        <div className='flex gap-4 p-5'>
           <div className='w-full'>
+            <Label>{label}</Label>
+
             <ElementComponent
               elementInstance={FormElements[element.type].construct(id)}
             />
           </div>
-
-          <button
-            type='button'
-            {...attributes}
-            {...listeners}
-            className='border border-gray-300 rounded-md p-1 cursor-grab'
-          >
-            <LuGripVertical className='h-6 w-6 text-gray-500' />
-          </button>
         </div>
+
+        <ElementAddedOverlay {...attributes} {...listeners} />
       </div>
     </>
   )
@@ -74,15 +72,28 @@ function ElementFormDragOverlay({ formElement }: { formElement: FormElement }) {
   const { label } = formElement.designerBtnElement
 
   return (
-    <div className='flex-col mb-4 bg-gray-100/55 p-4 rounded-md'>
-      <Label>{label}</Label>
-      <div className='flex gap-4'>
+    <div className='flex-col mb-4 bg-gray-600/55 rounded-md'>
+      <div className='flex gap-4 p-5'>
         <div className='w-full'>
+          <Label>{label}</Label>
+
           <ElementComponent
             elementInstance={formElement.construct(formElement.type)}
           />
         </div>
       </div>
+      <ElementAddedOverlay />
+    </div>
+  )
+}
+
+const ElementAddedOverlay = ({ ...props }) => {
+  return (
+    <div
+      {...props}
+      className={`absolute flex top-0 w-full h-full rounded-md items-center justify-center font-semibold text-transparent group-hover:bg-gray-900/80 group-hover:text-gray-400 group-hover:cursor-grab transition-colors duration-200`}
+    >
+      Click for properties or drag to move
     </div>
   )
 }

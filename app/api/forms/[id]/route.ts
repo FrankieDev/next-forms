@@ -39,6 +39,7 @@ export async function GET(request: NextRequest, context: { params: Params }) {
       .select()
       .from(formsTable)
       .where(eq(formsTable.id, formId))
+      .orderBy(formsTable.id)
 
     return NextResponse.json(row[0])
   } catch (error: unknown) {
